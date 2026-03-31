@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>3ZCOD3 GAMING COMMUNITY · Reviews, downloads hub &amp; community</title>
+  <meta name="description" content="3ZCOD3 GAMING COMMUNITY — PC game reviews, curated outbound download indexes, community discussion, and stream alerts.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #05060a;
+      --bg-card: rgba(14, 16, 28, 0.72);
+      --cyan: #00f0ff;
+      --magenta: #ff2d95;
+      --gold-warm: #ffb547;
+      --text: #e8eaef;
+      --muted: #8892a4;
+      --border: rgba(0, 240, 255, 0.12);
+      --glow-cyan: rgba(0, 240, 255, 0.35);
+      --glow-mag: rgba(255, 45, 149, 0.25);
+      --nav-h: 72px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.55;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.04;
+      z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(0, 240, 255, 0.14), transparent 50%),
+        radial-gradient(ellipse 90% 60% at 100% 50%, rgba(255, 45, 149, 0.08), transparent 45%),
+        radial-gradient(ellipse 70% 50% at 0% 80%, rgba(255, 181, 71, 0.06), transparent 40%),
+        linear-gradient(180deg, #070810 0%, var(--bg-deep) 40%);
+    }
+
+    .bg-grid::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 70%);
+    }
+
+    .scanlines {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      opacity: 0.35;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(1240px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5, 6, 10, 0.78);
+      backdrop-filter: blur(16px) saturate(160%);
+    }
+
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.15;
+      letter-spacing: 0.1em;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .brand-tagline {
+      display: block;
+      font-size: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      margin-top: 0.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 3vw, 2rem);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cyan); text-shadow: 0 0 20px var(--glow-cyan); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #00b8c4);
+      color: #05060a;
+      box-shadow: 0 0 24px var(--glow-cyan);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px var(--glow-cyan), 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 860px) {
+      .nav-toggle { display: flex; align-items: center; justify-content: center; }
+      .nav-links {
+        position: fixed;
+        top: var(--nav-h);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        padding: 1.25rem;
+        background: rgba(5, 6, 10, 0.96);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-120%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+      .nav-links.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .nav-links .btn { width: 100%; }
+    }
+
+    /* Hero */
+    .hero {
+      padding: calc(var(--nav-h) + 4rem) 0 5rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      background: rgba(0, 240, 255, 0.08);
+      margin-bottom: 1.5rem;
+      animation: pulse-border 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.2); }
+      50% { box-shadow: 0 0 20px 2px rgba(0, 240, 255, 0.12); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 14ch;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--text) 30%, var(--cyan) 55%, var(--magenta) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-lead {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 520px;
+    }
+
+    @media (max-width: 520px) { .stat-row { grid-template-columns: 1fr; } }
+
+    .stat {
+      padding: 1rem 1.15rem;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      color: var(--cyan);
+      margin-bottom: 0.15rem;
+    }
+
+    .stat span { font-size: 0.8rem; color: var(--muted); }
+
+    .hero-visual {
+      margin-top: 3rem;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 21 / 9;
+      min-height: 200px;
+      background:
+        linear-gradient(125deg, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+        linear-gradient(215deg, rgba(255, 45, 149, 0.07) 0%, transparent 40%),
+        linear-gradient(180deg, #0c0e18, #080910);
+    }
+
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -18deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 240, 255, 0.04) 3px,
+        rgba(0, 240, 255, 0.04) 6px
+      );
+      pointer-events: none;
+    }
+
+    .hero-visual-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+
+    .pc-silhouette {
+      font-size: clamp(4rem, 12vw, 7rem);
+      color: rgba(0, 240, 255, 0.15);
+      filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.3));
+    }
+
+    .floating-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 45, 149, 0.4);
+      color: var(--magenta);
+      background: rgba(255, 45, 149, 0.08);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .floating-tag:nth-child(2) { animation-delay: -2s; border-color: rgba(0, 240, 255, 0.4); color: var(--cyan); background: rgba(0, 240, 255, 0.08); }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    section { padding: 4.5rem 0; scroll-margin-top: calc(var(--nav-h) + 1rem); }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-head p { color: var(--muted); max-width: 38ch; font-size: 0.95rem; }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Game grid */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .game-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      transition: transform 0.25s ease, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 240, 255, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(0, 240, 255, 0.08);
+    }
+
+    .game-art {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      background: linear-gradient(145deg, rgba(0, 240, 255, 0.12), rgba(255, 45, 149, 0.08));
+    }
+
+    .game-art i { opacity: 0.85; }
+
+    .game-meta {
+      padding: 1.15rem 1.25rem 1.35rem;
+    }
+
+    .game-meta h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    /* PC strip */
+    .pc-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .pc-item {
+      border-radius: 14px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, var(--bg-card), rgba(8, 9, 16, 0.9));
+    }
+
+    .pc-item i {
+      font-size: 1.75rem;
+      color: var(--gold-warm);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .pc-item h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+
+    .pc-item p { font-size: 0.875rem; color: var(--muted); }
+
+    /* Specs table */
+    .specs-wrap {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .specs-table th,
+    .specs-table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .specs-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    .specs-table tr:last-child td { border-bottom: none; }
+
+    .specs-table td:last-child { color: var(--muted); font-size: 0.85rem; }
+
+    /* CTA */
+    .cta {
+      margin: 2rem 0 4rem;
+      border-radius: 20px;
+      padding: clamp(2rem, 5vw, 3.5rem);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      background:
+        radial-gradient(ellipse 80% 120% at 80% 20%, rgba(255, 45, 149, 0.15), transparent 50%),
+        radial-gradient(ellipse 60% 80% at 10% 80%, rgba(0, 240, 255, 0.12), transparent 45%),
+        rgba(10, 12, 22, 0.85);
+      text-align: center;
+    }
+
+    .cta h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.75rem; }
+
+    .cta p { color: var(--muted); margin-bottom: 1.5rem; max-width: 48ch; margin-inline: auto; }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .social { display: flex; gap: 1rem; }
+
+    .social a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .social a:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px var(--glow-cyan);
+    }
+
+    /* Nav extras: notifications */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .notif-btn {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .notif-btn:hover { border-color: var(--cyan); box-shadow: 0 0 16px rgba(0, 240, 255, 0.12); }
+
+    .notif-btn .dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--magenta);
+      box-shadow: 0 0 8px var(--magenta);
+      display: none;
+    }
+
+    .notif-btn.has-live .dot { display: block; }
+
+    .notif-panel {
+      position: fixed;
+      top: calc(var(--nav-h) + 8px);
+      right: max(1rem, 50vw - 620px);
+      width: min(380px, calc(100vw - 2rem));
+      max-height: min(70vh, 480px);
+      overflow: auto;
+      background: rgba(8, 10, 18, 0.97);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      z-index: 200;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      display: none;
+    }
+
+    .notif-panel.open { display: block; }
+
+    .notif-panel h3 {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .stream-row {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      align-items: flex-start;
+    }
+
+    .stream-row.live { border-color: rgba(255, 45, 149, 0.4); }
+
+    .stream-row .status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(255, 45, 149, 0.2);
+      color: var(--magenta);
+      white-space: nowrap;
+    }
+
+    .stream-row .status.off {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+    }
+
+    .stream-row p { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin: 0.75rem 0 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .switch {
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .switch.on { background: rgba(0, 240, 255, 0.35); }
+
+    .switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--text);
+      transition: transform 0.2s;
+    }
+
+    .switch.on::after { transform: translateX(20px); background: var(--cyan); }
+
+    /* Long-form & reviews */
+    .prose {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .prose p { margin-bottom: 1rem; }
+
+    .prose strong { color: var(--text); }
+
+    .review-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .review-card {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .review-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1.5rem 1.5rem 0;
+    }
+
+    .review-head h3 { font-size: 1.35rem; font-weight: 700; }
+
+    .score-block {
+      text-align: right;
+    }
+
+    .score-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .score-label { font-size: 0.75rem; color: var(--muted); }
+
+    .review-body { padding: 1rem 1.5rem 1.5rem; }
+
+    .verdict {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+
+    .split-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    @media (max-width: 640px) { .split-cols { grid-template-columns: 1fr; } }
+
+    .mini-list {
+      font-size: 0.875rem;
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .mini-list h4 {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      color: var(--magenta);
+    }
+
+    .mini-list.plus h4 { color: var(--cyan); }
+
+    .mini-list ul { margin-left: 1.1rem; color: var(--muted); }
+
+    .mini-list li { margin-bottom: 0.35rem; }
+
+    /* Download hub */
+    .legal-banner {
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 181, 71, 0.4);
+      background: rgba(255, 181, 71, 0.06);
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .legal-banner strong { color: var(--gold-warm); }
+
+    .dl-section { margin-bottom: 2rem; }
+
+    .dl-section h3 {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dl-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .dl-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .dl-link:hover { border-color: rgba(0, 240, 255, 0.35); background: rgba(0, 240, 255, 0.05); }
+
+    .dl-link span.name { font-weight: 600; }
+
+    .dl-link span.meta { font-size: 0.75rem; color: var(--muted); }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge.store { background: rgba(0, 240, 255, 0.15); color: var(--cyan); }
+    .badge.partner { background: rgba(255, 181, 71, 0.15); color: var(--gold-warm); }
+
+    /* Comments */
+    .comments-panel {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      padding: 1.5rem;
+    }
+
+    .comment-tools {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .comment-list { display: flex; flex-direction: column; gap: 1rem; max-height: 420px; overflow-y: auto; }
+
+    .comment {
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .comment .who { font-weight: 600; font-size: 0.9rem; }
+    .comment .when { font-size: 0.7rem; color: var(--muted); margin-left: 0.5rem; }
+    .comment .body { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text); }
+
+    .comment-form { margin-top: 1.25rem; display: grid; gap: 0.75rem; }
+
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(5, 6, 10, 0.8);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .comment-form textarea { min-height: 100px; resize: vertical; }
+
+    /* Contact */
+    .contact-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) { .contact-panel { grid-template-columns: 1fr; } }
+
+    .form-stack { display: flex; flex-direction: column; gap: 0.85rem; }
+
+    .form-stack label { font-size: 0.8rem; font-weight: 500; color: var(--muted); }
+
+    .form-stack input,
+    .form-stack select,
+    .form-stack textarea {
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(5, 6, 10, 0.85);
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .form-stack textarea { min-height: 140px; resize: vertical; }
+
+    .form-hint { font-size: 0.75rem; color: var(--muted); }
+
+    /* FAQ */
+    .faq details {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.02);
+      margin-bottom: 0.65rem;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    .faq summary::-webkit-details-marker { display: none; }
+
+    .faq details[open] summary { margin-bottom: 0.65rem; color: var(--cyan); }
+
+    .faq p { font-size: 0.9rem; color: var(--muted); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .step {
+      padding: 1.25rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, var(--bg-card), rgba(8, 9, 16, 0.85));
+    }
+
+    .step .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--magenta);
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 860px) {
+      .nav-inner .nav-actions { order: 2; }
+      .nav-toggle { order: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand" aria-label="3ZCOD3 Gaming Community home">3ZCOD3<span class="brand-tagline">GAMING COMMUNITY</span></a>
+      <nav class="nav-links" id="navLinks" aria-label="Main">
+        <a href="#reviews">Reviews</a>
+        <a href="#downloads">Get games</a>
+        <a href="#community">Comments</a>
+        <a href="#streams">Streams</a>
+        <a href="#guide">Field guide</a>
+        <a href="#contact">Report issue</a>
+        <a href="#games">Spotlight</a>
+        <a href="#pc">Why PC</a>
+        <a href="#build">Build</a>
+        <button type="button" class="btn btn-primary" id="navJoin">Notify me</button>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="notif-btn has-live" id="notifBtn" aria-expanded="false" aria-controls="notifPanel" title="Stream alerts">
+          <i class="fas fa-bell" aria-hidden="true"></i>
+          <span class="dot" aria-hidden="true"></span>
+        </button>
+      </div>
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="notif-panel" id="notifPanel" role="region" aria-label="Stream notifications">
+    <h3>
+      <span><i class="fas fa-video" aria-hidden="true"></i> Live desk</span>
+    </h3>
+    <div id="streamList"></div>
+    <div class="toggle-row">
+      <span>Desktop toast when someone goes live</span>
+      <button type="button" class="switch on" id="streamToggle" aria-pressed="true" title="Toggle alerts"></button>
+    </div>
+    <p class="form-hint" style="margin-top:0.5rem">Demo: preferences save in this browser only. Wire Twitch/YouTube APIs for real pushes.</p>
+  </div>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-badge"><i class="fas fa-bolt" aria-hidden="true"></i> Live — PC first</div>
+      <h1>Level up your <span>PC gaming</span> universe</h1>
+      <p class="hero-lead">Editorial reviews, outbound download indexes to official stores and partners you approve, on-page discussion, stream alerts, and a direct line for broken links and site bugs — one long scroll of signal.</p>
+      <div class="hero-actions">
+        <a href="#reviews" class="btn btn-primary"><i class="fas fa-star-half-stroke" aria-hidden="true"></i> Read reviews</a>
+        <a href="#downloads" class="btn btn-ghost"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> Get games</a>
+      </div>
+      <div class="stat-row" role="list">
+        <div class="stat" role="listitem"><strong>144+</strong><span>FPS mindset</span></div>
+        <div class="stat" role="listitem"><strong>PC</strong><span>Native focus</span></div>
+        <div class="stat" role="listitem"><strong>0</strong><span>Console excuses</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-visual-inner">
+          <span class="floating-tag">RT ON</span>
+          <i class="fas fa-desktop pc-silhouette" aria-hidden="true"></i>
+          <span class="floating-tag">DLSS</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Flow</p>
+          <h2>How 3ZCOD3 GAMING COMMUNITY works</h2>
+        </div>
+        <p>No walled garden — we publish opinionated reviews and send you outward to buy or download from sources you trust.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">01 · Read</div>
+          <h3 style="font-size:1.05rem;margin-bottom:0.35rem">Reviews with rigs &amp; framerate notes</h3>
+          <p style="font-size:0.9rem;color:var(--muted)">Each feature spells out test hardware, graphics presets, and a clear verdict so you know if a port respects PC.</p>
+        </div>
+        <div class="step">
+          <div class="num">02 · Follow</div>
+          <h3 style="font-size:1.05rem;margin-bottom:0.35rem">Outbound “Get game” rows</h3>
+          <p style="font-size:0.9rem;color:var(--muted)">Official storefronts always first. Optional extra rows point to partner pages on <em>your</em> domain allow-list — edit the config in the page script.</p>
+        </div>
+        <div class="step">
+          <div class="num">03 · Talk</div>
+          <h3 style="font-size:1.05rem;margin-bottom:0.35rem">Comments + stream pings</h3>
+          <p style="font-size:0.9rem;color:var(--muted)">Thread discussion stays under reviews for now (browser demo). Bell icon tracks creators you follow and can hook to real APIs later.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Critique</p>
+          <h2>In-depth PC reviews</h2>
+        </div>
+        <p>Long-form writeups with scores, performance outlook, and installation reality — the stuff store pages skip.</p>
+      </div>
+      <div class="review-grid">
+        <article class="review-card" id="review-neon">
+          <div class="review-head">
+            <h3>Neon Protocol</h3>
+            <div class="score-block">
+              <div class="score-num">8.6</div>
+              <div class="score-label">PC score / 10</div>
+            </div>
+          </div>
+          <div class="review-body prose">
+            <div class="verdict"><i class="fas fa-check" aria-hidden="true"></i> Verdict: buy on sale if you love dense cityscapes</div>
+            <p><strong>The port.</strong> Mouse smoothing off by default, raw input toggles present, ultrawide HUD fixed in the day-one patch. Path-traced reflections are expensive but stable on Ada and RDNA 3 with frame generation.</p>
+            <p><strong>Combat loop.</strong> Aggressive, readable silhouettes, chunky feedback. Side content avoids map-icon soup — most rewards tie back to build crafting.</p>
+            <div class="split-cols">
+              <div class="mini-list plus">
+                <h4>Highs</h4>
+                <ul>
+                  <li>Fantastic HDR calibration screen</li>
+                  <li>Shader compilation cached properly</li>
+                  <li>Mods: full script hook documented</li>
+                </ul>
+              </div>
+              <div class="mini-list">
+                <h4>Lows</h4>
+                <ul>
+                  <li>VRAM spikes in the downtown district</li>
+                  <li>Some HQ assets still streaming late on HDD</li>
+                </ul>
+              </div>
+            </div>
+            <p><strong>Test rig:</strong> Ryzen 7800X3D · RTX 4070 · 32 GB · NVMe · Windows 11 — <em>1440p</em> hybrid RT high, DLSS Quality, 95–120 fps.</p>
+          </div>
+        </article>
+        <article class="review-card" id="review-apex">
+          <div class="review-head">
+            <h3>Apex Vector</h3>
+            <div class="score-block">
+              <div class="score-num">9.1</div>
+              <div class="score-label">Competitive / 10</div>
+            </div>
+          </div>
+          <div class="review-body prose">
+            <div class="verdict"><i class="fas fa-bullseye" aria-hidden="true"></i> Verdict: essential if you live at 240 Hz</div>
+            <p><strong>Netcode &amp; feel.</strong> Tick rate advertised matches practice servers we probed. Input lag within a frame of the best-in-class lane shooters on identical monitors.</p>
+            <p><strong>Fairness.</strong> Cosmetic-only economy in ranked; loot box mechanics absent from competitive queues. Anti-cheat is kernel-level — know that before installing.</p>
+            <p><strong>Accessibility:</strong> Excellent colorblind presets and separate audio mix for abilities. Replay system still offline-only; expect third-party tools for vod review.</p>
+          </div>
+        </article>
+        <article class="review-card" id="review-eclipse">
+          <div class="review-head">
+            <h3>Eclipse Realms</h3>
+            <div class="score-block">
+              <div class="score-num">8.2</div>
+              <div class="score-label">Co-op / 10</div>
+            </div>
+          </div>
+          <div class="review-body prose">
+            <div class="verdict"><i class="fas fa-users" aria-hidden="true"></i> Verdict: great with friends, solo pace drags</div>
+            <p>Open regions are built for mounts and verticality — DLSS 3 saves the day when foliage density maxes out. Crossplay voice is clear; PC players can disable console aim assist pools in custom lobbies.</p>
+            <p>Install size is huge; plan for shader warmup on first launch. Dedicated server binaries exist for LAN — rare praise.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="downloads" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Outbound</p>
+          <h2>Where to get games</h2>
+        </div>
+        <p>We do not host installers. Every button opens an external site in a new tab. Keep your antivirus and browser updated.</p>
+      </div>
+      <div class="legal-banner" role="note">
+        <strong>Legal &amp; safety.</strong> Only link destinations you have the right to promote. Prefer publishers and storefronts you trust. Outbound links are provided as a convenience; 3ZCOD3 GAMING COMMUNITY does not verify third-party installers. Users must comply with copyright and local law.
+      </div>
+      <div class="dl-section">
+        <h3><i class="fas fa-bag-shopping" style="color:var(--cyan)" aria-hidden="true"></i> Official &amp; storefronts</h3>
+        <p class="prose" style="margin-bottom:0.75rem">Always start here when a game is available legitimately — you get updates, cloud saves, and refund policies.</p>
+        <div class="dl-list" id="dlOfficial"></div>
+      </div>
+      <div class="dl-section">
+        <h3><i class="fas fa-link" style="color:var(--gold-warm)" aria-hidden="true"></i> Partner &amp; community indexes</h3>
+        <p class="prose" style="margin-bottom:0.75rem">Populate <code style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;background:rgba(0,240,255,0.1);padding:0.15rem 0.35rem;border-radius:4px">ZCOD3_CONFIG.partnerLinks</code> in the page script with URLs you own or have permission to list (repack blogs, bundle partners, regional retailers, etc.). Remove rows you do not want shown.</p>
+        <div class="dl-list" id="dlPartner"></div>
+      </div>
+      <div class="prose" style="margin-top:1.5rem;font-size:0.875rem">
+        <p><strong>Per-game deep links:</strong> under each review, mirror the same pattern — Steam / GOG / Epic first, then optional partner rows. When a title is free-to-play, label the row “Account required” so readers know what they are signing up for.</p>
+      </div>
+    </section>
+
+    <section id="guide" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Field guide</p>
+          <h2>Long briefing: installs, red flags, support</h2>
+        </div>
+        <p>A living checklist you can paste into Discord or your wiki — expand it as your team grows.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-body prose" style="padding:1.5rem">
+          <h3 style="color:var(--text);font-size:1.1rem;margin-bottom:0.75rem">Before you click any outbound download</h3>
+          <p>Confirm the publisher, compare file sizes to official documentation when possible, and prefer HTTPS pages with clear contact info. If a mirror asks you to disable security software or download odd “codec packs,” close the tab.</p>
+          <h3 style="color:var(--text);font-size:1.1rem;margin:1.25rem 0 0.75rem">Checksum habit</h3>
+          <p>Publishing SHA-256 hashes alongside your review builds trust. Even when linking to storefronts, noting the build number (e.g., Steam buildid) helps readers know your article still matches reality after patches.</p>
+          <h3 style="color:var(--text);font-size:1.1rem;margin:1.25rem 0 0.75rem">Handling comments at scale</h3>
+          <p>This page stores discussion in <code style="font-family:'JetBrains Mono',monospace;font-size:0.85rem">localStorage</code> as a prototype. For production, swap in Supabase, Firebase, or your own API with moderation queues, spam filtering, and account bans.</p>
+          <h3 style="color:var(--text);font-size:1.1rem;margin:1.25rem 0 0.75rem">Livestream notifications roadmap</h3>
+          <p>The bell UI is ready for Twitch EventSub or YouTube polling. Start with server-side subscriptions so you do not leak API keys in static HTML. Optional: Web Push via service worker for true background toasts.</p>
+          <h3 style="color:var(--text);font-size:1.1rem;margin:1.25rem 0 0.75rem">Accessibility on a gaming site</h3>
+          <p>Keep contrast high, don’t rely on color alone for statuses, and provide text alternatives for score badges. Motion: respect <code style="font-family:'JetBrains Mono',monospace;font-size:0.85rem">prefers-reduced-motion</code> if you add heavier animations later.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="streams" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Broadcast</p>
+          <h2>Creators we track</h2>
+        </div>
+        <p>Schedule snapshot + live state. Hook your real APIs; this block is wired for the same data as the bell dropdown.</p>
+      </div>
+      <div class="specs-wrap">
+        <div id="streamSchedule" style="padding:1rem"></div>
+      </div>
+    </section>
+
+    <section id="community" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Thread</p>
+          <h2>Community comments</h2>
+        </div>
+        <p>Prototype discussion stored in your browser. Back it with a database before going public.</p>
+      </div>
+      <div class="comments-panel">
+        <p class="comment-tools"><i class="fas fa-flask" aria-hidden="true"></i> Demo mode · <span id="commentCount">0</span> posts in this session</p>
+        <div class="comment-list" id="commentList" aria-live="polite"></div>
+        <form class="comment-form" id="commentForm">
+          <input type="text" id="commentName" name="name" maxlength="40" placeholder="Display name" autocomplete="nickname" required>
+          <textarea id="commentBody" name="body" maxlength="1200" placeholder="Thoughts on a review, a port, or a mirror — keep it constructive." required></textarea>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-comment-dots" aria-hidden="true"></i> Post comment</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="faq" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions we expect</h2>
+        </div>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Do you host game files?</summary>
+          <p>No. 3ZCOD3 GAMING COMMUNITY only surfaces editorial content and outbound links. Files always live on third-party sites you choose to trust.</p>
+        </details>
+        <details>
+          <summary>Can I suggest a new mirror or partner?</summary>
+          <p>Use the report form with category “Broken or outdated link.” Moderators review before anything goes on the allow-list.</p>
+        </details>
+        <details>
+          <summary>Why are comments only on my device?</summary>
+          <p>This build is static HTML for fast iteration. Replace the storage helper in the script with your backend to sync threads across readers.</p>
+        </details>
+        <details>
+          <summary>How do stream alerts become real?</summary>
+          <p>Subscribe to creator webhook events server-side, then broadcast to browsers with WebSocket or push notifications. The UI toggle saves a preference bit you can read when subscribing.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="games" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Spotlight</p>
+          <h2>Games that shine on PC</h2>
+        </div>
+        <p>Big worlds, sharp shooters, and RPGs that reward a good rig. Swap icons and copy for your real library anytime.</p>
+      </div>
+      <div class="game-grid">
+        <article class="game-card">
+          <div class="game-art"><i class="fas fa-ghost" style="color: var(--magenta);" aria-hidden="true"></i></div>
+          <div class="game-meta">
+            <h3>Neon Protocol</h3>
+            <p style="color: var(--muted); font-size: 0.875rem;">Cyberpunk action-RPG with path tracing and a mod-friendly scene.</p>
+            <div class="tags">
+              <span class="tag">RPG</span><span class="tag">Ray tracing</span><span class="tag">Steam</span>
+            </div>
+          </div>
+        </article>
+        <article class="game-card">
+          <div class="game-art"><i class="fas fa-crosshairs" style="color: var(--cyan);" aria-hidden="true"></i></div>
+          <div class="game-meta">
+            <h3>Apex Vector</h3>
+            <p style="color: var(--muted); font-size: 0.875rem;">Competitive FPS tuned for high refresh monitors and low input lag.</p>
+            <div class="tags">
+              <span class="tag">FPS</span><span class="tag">Esports</span><span class="tag">240Hz</span>
+            </div>
+          </div>
+        </article>
+        <article class="game-card">
+          <div class="game-art"><i class="fas fa-dragon" style="color: var(--gold-warm);" aria-hidden="true"></i></div>
+          <div class="game-meta">
+            <h3>Eclipse Realms</h3>
+            <p style="color: var(--muted); font-size: 0.875rem;">Open world co-op with DLSS 3 and dense foliage that actually moves.</p>
+            <div class="tags">
+              <span class="tag">Co-op</span><span class="tag">Open world</span><span class="tag">DLSS</span>
+            </div>
+          </div>
+        </article>
+        <article class="game-card">
+          <div class="game-art"><i class="fas fa-chess-rook" style="color: #a78bfa;" aria-hidden="true"></i></div>
+          <div class="game-meta">
+            <h3>Crownfall Tactics</h3>
+            <p style="color: var(--muted); font-size: 0.875rem;">Turn-based strategy that scales from laptops to ultrawides.</p>
+            <div class="tags">
+              <span class="tag">Strategy</span><span class="tag">Ultrawide</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="pc" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Why PC</p>
+          <h2>The platform with no ceiling</h2>
+        </div>
+        <p>Mods, multiple storefronts, precision aiming, and hardware you control. This is the stack that matters.</p>
+      </div>
+      <div class="pc-strip">
+        <div class="pc-item">
+          <i class="fas fa-sliders" aria-hidden="true"></i>
+          <h3>Your settings, your rules</h3>
+          <p>FoV, FSR, frame caps, ultrawide, reshade — tune everything until it feels right.</p>
+        </div>
+        <div class="pc-item">
+          <i class="fas fa-box-archive" aria-hidden="true"></i>
+          <h3>Library that lasts</h3>
+          <p>Backwards compatibility and community patches keep classics alive on modern GPUs.</p>
+        </div>
+        <div class="pc-item">
+          <i class="fas fa-headset" aria-hidden="true"></i>
+          <h3>Voice &amp; squad ready</h3>
+          <p>Discord, OBS, overlays: streaming and comms without leaving the desktop.</p>
+        </div>
+        <div class="pc-item">
+          <i class="fas fa-rocket" aria-hidden="true"></i>
+          <h3>Upgrade on your schedule</h3>
+          <p>One component at a time — no whole-console generation lock-in.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="build" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Reality check</p>
+          <h2>2026 starter build targets</h2>
+        </div>
+        <p>Rough guide only — prices move fast. Use this as a shopping sanity list, not gospel.</p>
+      </div>
+      <div class="specs-wrap">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Target</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1080p competitive</strong></td>
+              <td>Mid GPU · fast CPU · 32 GB RAM</td>
+              <td>High FPS esports and livestreaming headroom</td>
+            </tr>
+            <tr>
+              <td><strong>1440p all-rounder</strong></td>
+              <td>Upper-mid GPU · PCIe Gen4 SSD</td>
+              <td>Max quality in AAAs with upscaler of choice</td>
+            </tr>
+            <tr>
+              <td><strong>4K / path tracing</strong></td>
+              <td>Flagship GPU · serious PSU · airflow case</td>
+              <td>Thermals first; frame gen where supported</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Support</p>
+          <h2>Report issues, bugs &amp; bad links</h2>
+        </div>
+        <p>We read every message template client-side here; wire it to email or a ticket system when you deploy.</p>
+      </div>
+      <div class="contact-panel">
+        <form class="form-stack" id="bugForm">
+          <div>
+            <label for="issueType">Category</label>
+            <select id="issueType" name="type" required>
+              <option value="">Select…</option>
+              <option value="bug">Site bug / layout</option>
+              <option value="link">Broken or unsafe outbound link</option>
+              <option value="review">Factual error in a review</option>
+              <option value="legal">Copyright / takedown request</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="issueEmail">Your email (so we can reply)</label>
+            <input type="email" id="issueEmail" name="email" autocomplete="email" required placeholder="you@example.com">
+          </div>
+          <div>
+            <label for="issueDetail">Details</label>
+            <textarea id="issueDetail" name="detail" required placeholder="URLs, steps to reproduce, browser/OS, screenshots hosted if needed."></textarea>
+            <p class="form-hint">Submitting opens your mail client with a prefilled summary — replace with Formspree / backend POST when ready.</p>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-life-ring" aria-hidden="true"></i> Send report</button>
+        </form>
+        <div class="prose">
+          <h3 style="color:var(--text);font-size:1rem;margin-bottom:0.5rem">Response targets</h3>
+          <p><strong>Broken links:</strong> usually fixed within 48h if we can verify a replacement.</p>
+          <p><strong>Security:</strong> if you suspect malware from any outbound destination, tell us immediately and avoid running unknown installers.</p>
+          <p><strong>Privacy:</strong> this static demo never uploads your form — the submit handler only prepares a <code style="font-family:'JetBrains Mono',monospace;font-size:0.85rem">mailto:</code> draft.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta">
+        <h2>Queue for the next drop</h2>
+        <p>Weekly review cadence, patch radar for PC ports, and stream schedule digests. Wire this button to your list provider.</p>
+        <button type="button" class="btn btn-primary" id="ctaNotify"><i class="fas fa-paper-plane" aria-hidden="true"></i> Notify me</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p>© <span id="y"></span> 3ZCOD3 GAMING COMMUNITY — Reviews, outbound indexes, and community tools. Illustrative game names; configure real links in <code style="font-family:'JetBrains Mono',monospace;font-size:0.75rem">ZCOD3_CONFIG</code>.</p>
+      <div class="social" aria-label="Social">
+        <a href="#" aria-label="Discord"><i class="fab fa-discord" aria-hidden="true"></i></a>
+        <a href="#" aria-label="Twitch"><i class="fab fa-twitch" aria-hidden="true"></i></a>
+        <a href="#" aria-label="Steam"><i class="fab fa-steam" aria-hidden="true"></i></a>
+        <a href="#contact" aria-label="Contact"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.ZCOD3_CONFIG = {
+      officialLinks: [
+        { name: 'Steam', url: 'https://store.steampowered.com', note: 'PC · global catalog' },
+        { name: 'GOG', url: 'https://www.gog.com', note: 'DRM-free options' },
+        { name: 'Epic Games Store', url: 'https://store.epicgames.com', note: 'Weekly free titles' },
+        { name: 'Xbox PC / Game Pass', url: 'https://www.xbox.com/pc-game-pass', note: 'Subscription library' }
+      ],
+      partnerLinks: [
+        { name: 'Partner index A (edit URL)', url: 'https://example.com/partner-a', note: 'Replace with permitted destination' },
+        { name: 'Partner index B (edit URL)', url: 'https://example.com/partner-b', note: 'Regional retailer / bundle site' },
+        { name: 'Community wiki / install guide', url: 'https://example.com/wiki', note: 'Documentation only — no direct files' }
+      ],
+      streams: [
+        { channel: '3ZCOD3_Official', title: 'PC port patch rundown + Q&amp;A', live: true, platform: 'Twitch', url: 'https://www.twitch.tv' },
+        { channel: 'SiliconSquad', title: 'Scheduled: build therapy Friday 8pm UTC', live: false, platform: 'YouTube', url: 'https://www.youtube.com' },
+        { channel: 'FrameChasers', title: 'Live: competitive ladder', live: true, platform: 'Twitch', url: 'https://www.twitch.tv' }
+      ]
+    };
+
+    (function () {
+      var cfg = window.ZCOD3_CONFIG || {};
+      var y = document.getElementById('y');
+      if (y) y.textContent = new Date().getFullYear();
+
+      function esc(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function renderDlRow(item, badgeClass, badgeText) {
+        return (
+          '<a class="dl-link" href="' + esc(item.url) + '" target="_blank" rel="noopener noreferrer">' +
+          '<span><span class="name">' + esc(item.name) + '</span> <span class="badge ' + badgeClass + '">' + badgeText + '</span><br><span class="meta">' + esc(item.note || '') + '</span></span>' +
+          '<i class="fas fa-arrow-up-right-from-square" style="color:var(--muted)" aria-hidden="true"></i></a>'
+        );
+      }
+
+      var officialEl = document.getElementById('dlOfficial');
+      if (officialEl && cfg.officialLinks) {
+        officialEl.innerHTML = cfg.officialLinks.map(function (x) { return renderDlRow(x, 'store', 'storefront'); }).join('');
+      }
+      var partnerEl = document.getElementById('dlPartner');
+      if (partnerEl && cfg.partnerLinks) {
+        partnerEl.innerHTML = cfg.partnerLinks.map(function (x) { return renderDlRow(x, 'partner', 'partner'); }).join('');
+      }
+
+      function renderStreamRow(s) {
+        var live = !!s.live;
+        return (
+          '<div class="stream-row' + (live ? ' live' : '') + '">' +
+          '<span class="status' + (live ? '' : ' off') + '">' + (live ? 'live' : 'offline') + '</span>' +
+          '<div><strong>' + esc(s.channel) + '</strong> · ' + esc(s.platform) +
+          '<p>' + esc(s.title) + '</p>' +
+          '<a class="btn btn-ghost" style="margin-top:0.5rem;padding:0.35rem 0.75rem;font-size:0.8rem" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">Open channel</a></div></div>'
+        );
+      }
+
+      function fillStreams() {
+        var list = document.getElementById('streamList');
+        var sched = document.getElementById('streamSchedule');
+        var html = (cfg.streams || []).map(renderStreamRow).join('');
+        if (list) list.innerHTML = html;
+        if (sched) sched.innerHTML = html;
+      }
+      fillStreams();
+
+      var notifBtn = document.getElementById('notifBtn');
+      var notifPanel = document.getElementById('notifPanel');
+      if (notifBtn && notifPanel) {
+        notifBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = !notifPanel.classList.contains('open');
+          notifPanel.classList.toggle('open', open);
+          notifBtn.setAttribute('aria-expanded', open);
+        });
+        document.addEventListener('click', function () {
+          notifPanel.classList.remove('open');
+          notifBtn.setAttribute('aria-expanded', 'false');
+        });
+        notifPanel.addEventListener('click', function (e) { e.stopPropagation(); });
+      }
+
+      var streamToggle = document.getElementById('streamToggle');
+      if (streamToggle) {
+        var saved = localStorage.getItem('zcod3StreamAlerts');
+        if (saved === '0') { streamToggle.classList.remove('on'); streamToggle.setAttribute('aria-pressed', 'false'); }
+        streamToggle.addEventListener('click', function () {
+          var on = !streamToggle.classList.contains('on');
+          streamToggle.classList.toggle('on', on);
+          streamToggle.setAttribute('aria-pressed', on);
+          localStorage.setItem('zcod3StreamAlerts', on ? '1' : '0');
+          if (on && 'Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+          }
+        });
+      }
+
+      var anyLive = (cfg.streams || []).some(function (s) { return s.live; });
+      if (anyLive && streamToggle && streamToggle.classList.contains('on') && 'Notification' in window && Notification.permission === 'granted') {
+        if (!sessionStorage.getItem('zcod3LiveToast')) {
+          sessionStorage.setItem('zcod3LiveToast', '1');
+          try {
+            new Notification('3ZCOD3 stream desk', { body: 'A tracked channel is live — open the bell for links.' });
+          } catch (e) {}
+        }
+      }
+
+      var COMMENT_KEY = 'zcod3CommentsV1';
+      function loadComments() {
+        try {
+          var raw = localStorage.getItem(COMMENT_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) { return []; }
+      }
+      function saveComments(arr) {
+        localStorage.setItem(COMMENT_KEY, JSON.stringify(arr));
+      }
+      function renderComments() {
+        var arr = loadComments();
+        var el = document.getElementById('commentList');
+        var cnt = document.getElementById('commentCount');
+        if (cnt) cnt.textContent = String(arr.length);
+        if (!el) return;
+        if (!arr.length) {
+          el.innerHTML = '<p class="form-hint" style="padding:0.5rem">No comments yet — start the thread.</p>';
+          return;
+        }
+        el.innerHTML = arr.slice().reverse().map(function (c) {
+          return (
+            '<div class="comment"><span class="who">' + esc(c.name) + '</span><span class="when">' + esc(c.when) + '</span>' +
+            '<div class="body">' + esc(c.body) + '</div></div>'
+          );
+        }).join('');
+      }
+      renderComments();
+      var commentForm = document.getElementById('commentForm');
+      if (commentForm) {
+        commentForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var nameEl = document.getElementById('commentName');
+          var bodyEl = document.getElementById('commentBody');
+          var name = (nameEl && nameEl.value || '').trim();
+          var body = (bodyEl && bodyEl.value || '').trim();
+          if (!name || !body) return;
+          var arr = loadComments();
+          arr.push({
+            name: name,
+            body: body,
+            when: new Date().toLocaleString()
+          });
+          saveComments(arr);
+          commentForm.reset();
+          renderComments();
+        });
+      }
+
+      var bugForm = document.getElementById('bugForm');
+      if (bugForm) {
+        bugForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var typeEl = document.getElementById('issueType');
+          var emailEl = document.getElementById('issueEmail');
+          var detailEl = document.getElementById('issueDetail');
+          var type = typeEl && typeEl.value;
+          var email = emailEl && emailEl.value;
+          var detail = detailEl && detailEl.value;
+          var subject = encodeURIComponent('[3ZCOD3] ' + type + ' report');
+          var body = encodeURIComponent('Type: ' + type + '\nFrom: ' + email + '\n\n' + detail);
+          window.location.href = 'mailto:support@yourdomain.test?subject=' + subject + '&body=' + body;
+        });
+      }
+
+      function toastNotifyClick() {
+        alert('Hook this to your newsletter provider (Buttondown, Mailchimp, etc.) or an email capture modal.');
+      }
+      var navJoin = document.getElementById('navJoin');
+      var ctaNotify = document.getElementById('ctaNotify');
+      if (navJoin) navJoin.addEventListener('click', toastNotifyClick);
+      if (ctaNotify) ctaNotify.addEventListener('click', toastNotifyClick);
+
+      var toggle = document.getElementById('navToggle');
+      var links = document.getElementById('navLinks');
+      if (toggle && links) {
+        toggle.addEventListener('click', function () {
+          var open = links.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', open);
+          toggle.querySelector('i').className = open ? 'fas fa-times' : 'fas fa-bars';
+        });
+        links.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            links.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.querySelector('i').className = 'fas fa-bars';
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
